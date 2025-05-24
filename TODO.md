@@ -27,3 +27,8 @@ This repository currently includes a README with a detailed plan and example cod
    - You can also schedule the script with a cron job so it runs automatically every day.
 
 Following these tasks will get the pipeline up and running so you can collect BTC and ETH derivatives data from Coinglass.
+
+## Progress
+- Created `coinglass_pipeline.py` containing the pipeline code.
+- Added `requirements.txt` listing required packages.
+- Next step: Insert your actual Coinglass API key in `coinglass_pipeline.py` and run `pip install -r requirements.txt` before executing the script.
