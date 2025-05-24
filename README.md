@@ -1,1 +1,387 @@
-# coinglass
+# coinglassCoinglass BTC/ETH Data Pipeline – Plan & Implementation
+Overview and Plan
+To reliably gather BTC and ETH derivatives data (open interest, long/short ratios, liquidations, funding rates) from the Coinglass Hobbyist API, we will build a structured Python pipeline. The solution will emphasize modular design, error handling, and easy maintenance, enabling future scheduling or real-time upgrades. Key steps include:
+Authentication Setup: Use the Coinglass API key (from the Hobbyist plan) in request headers for every call
+docs.coinglass.com
+. Without the header, requests are rejected (HTTP 401).
+Define Target Endpoints: Identify and utilize the API endpoints (available to Hobbyist) for each data type:
+Open Interest: Aggregated open interest history (across all exchanges)
+docs.coinglass.com
+.
+Long/Short Ratio: Long vs short account ratio history (for all accounts or top traders)
+docs.coinglass.com
+.
+Liquidations: Aggregated long & short liquidation history across exchanges
+docs.coinglass.com
+.
+Funding Rates: Open-Interest-weighted funding rate history (aggregated)
+docs.coinglass.com
+.
+Note: Hobbyist plan supports these endpoints with a minimum interval of 4 hours
+docs.coinglass.com
+docs.coinglass.com
+, so we will use 4h or higher time granularity for historical data.
+Modular Design: Create a reusable API client class (e.g., CoinglassClient) to handle HTTP requests, apply the API key, and implement methods for each data type (OI, ratios, etc.). This keeps code DRY and easy to extend.
+Robust Error Handling: Implement checks and retries for HTTP errors or API rate limits. Log failures with clear messages (using Python’s logging module) to troubleshoot issues without crashing the pipeline.
+Local Storage: Save data in a structured format that is analysis-friendly and persistent. We will use an SQLite database (built-in Python sqlite3) to store results in tables (one per data type) with schema designed for queryability. SQLite offers reliability and thread-safety for scheduled tasks, and minimal external dependencies. (Alternatively, CSV files could be used for simplicity, but a database avoids manual deduplication and is easily queryable.)
+Reusability and Scheduling: The code will be organized so that fetching for multiple symbols (BTC, ETH) and multiple endpoints is straightforward. Functions can be called in loops or scheduled jobs (e.g., via cron or an Airflow DAG) to update data regularly. The modular structure also allows real-time expansion (e.g., switching to Coinglass WebSocket streams in the future) without major refactoring.
+Documentation: Use descriptive function names, docstrings, and comments to explain each component’s role. This helps future maintenance and any AI assistant that might read the code to assist with analysis.
+Next, we present the Python implementation following this plan, with inline documentation explaining each part's role.
+Implementation Structure
+Below is a well-documented Python script for the pipeline. It can be treated as a single script or organized into modules (e.g., coinglass_client.py and main.py) as needed. Comments and docstrings describe how each piece contributes to the overall functionality:
+python
+Copy
+Edit
+import requests
+import sqlite3
+import logging
+import time
+
+# ------------------------
+# Configuration & Constants
+# ------------------------
+
+API_KEY = "<YOUR_COINGLASS_API_KEY>"  # TODO: Set your Coinglass API key here.
+BASE_URL = "https://open-api-v4.coinglass.com/api"  # Base URL for Coinglass API (v4).
+
+# Define endpoints for each data type. Endpoints are chosen for Hobbyist availability.
+ENDPOINTS = {
+    "open_interest": "/futures/open-interest/aggregated-history",   # Aggregated OI across exchanges:contentReference[oaicite:7]{index=7}
+    "funding_rate": "/futures/funding-rate/oi-weight-history",      # OI-weighted funding rate:contentReference[oaicite:8]{index=8}
+    "long_short_ratio": "/futures/top-long-short-account-ratio/history",  # Top traders long/short ratio:contentReference[oaicite:9]{index=9}
+    # ^ Using top accounts ratio; alternatively, could use global accounts ratio endpoint (requires exchange param).
+    "liquidations": "/futures/liquidation/aggregated-history"       # Aggregated liquidation data:contentReference[oaicite:10]{index=10}
+}
+
+# Database file (SQLite) for storing fetched data
+DB_FILE = "coinglass_data.db"
+
+# Set up logging to console and file for debugging and audit trail.
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.StreamHandler(),               # log to console
+        logging.FileHandler("pipeline.log")    # log to file
+    ]
+)
+
+
+# --------------
+# Helper Classes
+# --------------
+
+class CoinglassClient:
+    """Client for Coinglass API requests, handling authentication and basic error logic."""
+    def __init__(self, api_key: str, base_url: str = BASE_URL):
+        self.api_key = api_key
+        self.base_url = base_url
+        # Use a requests.Session for connection reuse (efficiency)
+        self.session = requests.Session()
+        # Attach API key to headers for all requests
+        self.session.headers.update({
+            "accept": "application/json",
+            "CG-API-KEY": self.api_key  # Authentication header as per Coinglass docs:contentReference[oaicite:11]{index=11}
+        })
+    
+    def get(self, endpoint: str, params: dict) -> dict:
+        """
+        Send a GET request to the given Coinglass API endpoint with provided params.
+        Returns parsed JSON on success, or raises an exception on failure.
+        Implements basic retry logic for robustness.
+        """
+        url = self.base_url + endpoint
+        max_retries = 3
+        for attempt in range(1, max_retries+1):
+            try:
+                logging.debug(f"Requesting {url} with params {params} (Attempt {attempt})")
+                response = self.session.get(url, params=params, timeout=10)
+            except requests.RequestException as e:
+                logging.error(f"Network error on attempt {attempt} for {endpoint}: {e}")
+                if attempt < max_retries:
+                    time.sleep(2)  # wait and retry
+                    continue
+                else:
+                    raise  # Give up after max retries
+            # If HTTP status not OK, consider retrying or error out
+            if response.status_code != 200:
+                logging.warning(f"Received HTTP {response.status_code} for {endpoint}: {response.text}")
+                if attempt < max_retries:
+                    time.sleep(1)
+                    continue
+                else:
+                    response.raise_for_status()  # Will raise HTTPError
+            # Parse JSON
+            try:
+                data = response.json()
+            except ValueError:
+                logging.error(f"Invalid JSON response for {endpoint}: {response.text[:200]}")
+                raise
+            # Coinglass API returns a "code" field for success/failure in JSON
+            if data.get("code") != "0":
+                # API-level error (e.g., invalid params). Log and raise.
+                msg = data.get("msg", "Unknown API error")
+                logging.error(f"API error for {endpoint}: code={data.get('code')}, msg={msg}")
+                raise RuntimeError(f"Coinglass API error: {msg}")
+            # On success, return the 'data' portion of the response
+            return data.get("data", [])
+        # If loop exits without return, raise an error (shouldn't happen due to returns/breaks above)
+        raise RuntimeError(f"Failed to get data from {endpoint} after {max_retries} attempts.")
+    
+    # High-level methods for each data category:
+    def fetch_open_interest_history(self, symbol: str, interval: str = "4h", start_time: int = None, end_time: int = None):
+        """
+        Fetch aggregated open interest history for a given symbol.
+        Interval must be >=4h for Hobbyist:contentReference[oaicite:12]{index=12}. Optionally specify start_time/end_time in ms.
+        """
+        params = {"symbol": symbol, "interval": interval}
+        if start_time: 
+            params["start_time"] = start_time
+        if end_time:
+            params["end_time"] = end_time
+        logging.info(f"Fetching open interest history for {symbol} (interval={interval})")
+        return self.get(ENDPOINTS["open_interest"], params)
+    
+    def fetch_funding_rate_history(self, symbol: str, interval: str = "4h", start_time: int = None, end_time: int = None):
+        """
+        Fetch open-interest-weighted funding rate history for a given symbol:contentReference[oaicite:13]{index=13}.
+        Interval must be >=4h for Hobbyist. Returns funding rates as list of OHLC values.
+        """
+        params = {"symbol": symbol, "interval": interval}
+        if start_time: 
+            params["start_time"] = start_time
+        if end_time:
+            params["end_time"] = end_time
+        logging.info(f"Fetching funding rate history (OI-weighted) for {symbol} (interval={interval})")
+        return self.get(ENDPOINTS["funding_rate"], params)
+    
+    def fetch_long_short_ratio_history(self, symbol: str, interval: str = "4h", exchange: str = "Binance", top_accounts: bool = True):
+        """
+        Fetch long/short ratio history for a symbol. By default, fetches *top accounts* ratio:contentReference[oaicite:14]{index=14} on a given exchange.
+        If top_accounts=False, you could use the global accounts ratio endpoint (requires exchange).
+        Coinglass requires specifying exchange for long/short ratios on futures.
+        """
+        if top_accounts:
+            endpoint = ENDPOINTS["long_short_ratio"]  # Top accounts ratio history
+        else:
+            endpoint = "/futures/global-long-short-account-ratio/history"  # (If using global ratio per exchange)
+        params = {"symbol": symbol, "interval": interval, "exchangeName": exchange}
+        label = "top accounts" if top_accounts else "global accounts"
+        logging.info(f"Fetching {label} long/short ratio for {symbol} on {exchange} (interval={interval})")
+        return self.get(endpoint, params)
+    
+    def fetch_liquidation_history(self, symbol: str, interval: str = "4h", start_time: int = None, end_time: int = None):
+        """
+        Fetch aggregated liquidation history for a given coin:contentReference[oaicite:15]{index=15}, across all futures exchanges.
+        Returns list of data points with long and short liquidation USD amounts.
+        """
+        params = {"symbol": symbol, "interval": interval}
+        if start_time: 
+            params["start_time"] = start_time
+        if end_time:
+            params["end_time"] = end_time
+        logging.info(f"Fetching liquidation history for {symbol} (interval={interval})")
+        return self.get(ENDPOINTS["liquidations"], params)
+
+
+class DataStorage:
+    """Handles local data storage (SQLite DB) for the pipeline."""
+    def __init__(self, db_path=DB_FILE):
+        self.conn = sqlite3.connect(db_path)
+        self.cur = self.conn.cursor()
+        self._ensure_tables()
+    
+    def _ensure_tables(self):
+        """Create tables for each data type if they do not exist."""
+        # Using symbol+time as a composite primary key to prevent duplicate inserts on re-run.
+        # Time stored as integer (milliseconds since epoch).
+        self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS open_interest (
+                symbol TEXT,
+                time   INTEGER,
+                open   REAL,
+                high   REAL,
+                low    REAL,
+                close  REAL,
+                PRIMARY KEY(symbol, time)
+            )
+        """)
+        self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS funding_rate (
+                symbol TEXT,
+                time   INTEGER,
+                open   REAL,
+                high   REAL,
+                low    REAL,
+                close  REAL,
+                PRIMARY KEY(symbol, time)
+            )
+        """)
+        self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS long_short_ratio (
+                symbol TEXT,
+                exchange TEXT,
+                time   INTEGER,
+                long_percent  REAL,
+                short_percent REAL,
+                long_short_ratio REAL,
+                category TEXT,  -- 'global' or 'top' accounts
+                PRIMARY KEY(symbol, exchange, time, category)
+            )
+        """)
+        self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS liquidations (
+                symbol TEXT,
+                time   INTEGER,
+                long_liquidation_usd  REAL,
+                short_liquidation_usd REAL,
+                PRIMARY KEY(symbol, time)
+            )
+        """)
+        self.conn.commit()
+    
+    def insert_open_interest(self, symbol: str, data_points: list):
+        """Insert multiple open interest records for a symbol."""
+        # Each data_point is expected to have keys: time, open, high, low, close (as strings or numeric)
+        rows = [(symbol, int(dp["time"]), float(dp["open"]), float(dp["high"]), 
+                 float(dp["low"]), float(dp["close"])) for dp in data_points]
+        self.cur.executemany(
+            "INSERT OR IGNORE INTO open_interest (symbol, time, open, high, low, close) VALUES (?, ?, ?, ?, ?, ?)",
+            rows
+        )
+        self.conn.commit()
+        logging.info(f"Stored {len(rows)} open interest records for {symbol}.")
+    
+    def insert_funding_rate(self, symbol: str, data_points: list):
+        """Insert multiple funding rate records for a symbol."""
+        # data_point keys: time, open, high, low, close
+        rows = [(symbol, int(dp["time"]), float(dp["open"]), float(dp["high"]), 
+                 float(dp["low"]), float(dp["close"])) for dp in data_points]
+        self.cur.executemany(
+            "INSERT OR IGNORE INTO funding_rate (symbol, time, open, high, low, close) VALUES (?, ?, ?, ?, ?, ?)",
+            rows
+        )
+        self.conn.commit()
+        logging.info(f"Stored {len(rows)} funding rate records for {symbol}.")
+    
+    def insert_long_short_ratio(self, symbol: str, exchange: str, data_points: list, category: str):
+        """Insert long/short ratio records (global or top accounts) for a symbol on a given exchange."""
+        # data_point keys: time, and depending on endpoint:
+        # - For top accounts: top_account_long_percent, top_account_short_percent, top_account_long_short_ratio:contentReference[oaicite:16]{index=16}
+        # - For global accounts: global_account_long_percent, global_account_short_percent, global_account_long_short_ratio:contentReference[oaicite:17]{index=17}
+        rows = []
+        for dp in data_points:
+            if "global_account_long_percent" in dp:
+                long_pct = float(dp["global_account_long_percent"])
+                short_pct = float(dp["global_account_short_percent"])
+                ratio = float(dp["global_account_long_short_ratio"])
+            else:
+                long_pct = float(dp.get("top_account_long_percent", 0.0))
+                short_pct = float(dp.get("top_account_short_percent", 0.0))
+                ratio = float(dp.get("top_account_long_short_ratio", 0.0))
+            rows.append((symbol, exchange, int(dp["time"]), long_pct, short_pct, ratio, category))
+        self.cur.executemany(
+            "INSERT OR IGNORE INTO long_short_ratio (symbol, exchange, time, long_percent, short_percent, long_short_ratio, category) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            rows
+        )
+        self.conn.commit()
+        logging.info(f"Stored {len(rows)} {category} long/short ratio records for {symbol} on {exchange}.")
+    
+    def insert_liquidations(self, symbol: str, data_points: list):
+        """Insert liquidation records for a symbol."""
+        # data_point keys: time, aggregated_long_liquidation_usd, aggregated_short_liquidation_usd:contentReference[oaicite:18]{index=18}
+        rows = [(symbol, int(dp["time"]), float(dp["aggregated_long_liquidation_usd"]), 
+                 float(dp["aggregated_short_liquidation_usd"])) for dp in data_points]
+        self.cur.executemany(
+            "INSERT OR IGNORE INTO liquidations (symbol, time, long_liquidation_usd, short_liquidation_usd) VALUES (?, ?, ?, ?)",
+            rows
+        )
+        self.conn.commit()
+        logging.info(f"Stored {len(rows)} liquidation records for {symbol}.")
+    
+    def close(self):
+        """Close the database connection."""
+        self.cur.close()
+        self.conn.close()
+
+
+# -----------------
+# Main Pipeline Run
+# -----------------
+
+if __name__ == "__main__":
+    symbols = ["BTC", "ETH"]  # Target symbols to fetch
+    interval = "4h"           # Data interval (Hobbyist allowed >= 4h)
+    exchange_name = "Binance" # Exchange for long/short ratio (can be parameterized)
+    
+    client = CoinglassClient(API_KEY)
+    storage = DataStorage(DB_FILE)
+    
+    for symbol in symbols:
+        try:
+            # 1. Fetch and store Open Interest data
+            oi_data = client.fetch_open_interest_history(symbol, interval=interval)
+            storage.insert_open_interest(symbol, oi_data)
+            
+            # 2. Fetch and store Funding Rate data
+            fr_data = client.fetch_funding_rate_history(symbol, interval=interval)
+            storage.insert_funding_rate(symbol, fr_data)
+            
+            # 3. Fetch and store Long/Short Ratio data (top accounts by default)
+            ls_top_data = client.fetch_long_short_ratio_history(symbol, interval=interval, exchange=exchange_name, top_accounts=True)
+            storage.insert_long_short_ratio(symbol, exchange_name, ls_top_data, category="top")
+            # (Optional) Fetch global account ratio as well, if needed:
+            # ls_global_data = client.fetch_long_short_ratio_history(symbol, interval=interval, exchange=exchange_name, top_accounts=False)
+            # storage.insert_long_short_ratio(symbol, exchange_name, ls_global_data, category="global")
+            
+            # 4. Fetch and store Liquidation data
+            liq_data = client.fetch_liquidation_history(symbol, interval=interval)
+            storage.insert_liquidations(symbol, liq_data)
+        
+        except Exception as e:
+            logging.error(f"Error fetching data for {symbol}: {e}")
+            # Continue to next symbol if one fails, to not block the entire pipeline
+            continue
+    
+    # Close DB connection
+    storage.close()
+    logging.info("Data pipeline run completed.")
+Explanation of the Code Structure
+Configuration Section: Sets the API key, base URL, endpoints, and logging configuration. The ENDPOINTS dict maps logical names to the API paths we need. For example, "open_interest" uses the aggregated open interest history path (available to Hobbyist)
+docs.coinglass.com
+. The logging is configured to output both to console and a file (pipeline.log) for audit and debugging.
+CoinglassClient Class: Encapsulates the logic for making authenticated requests to Coinglass. The constructor creates a requests.Session and sets the CG-API-KEY header with the provided API key
+docs.coinglass.com
+ for all requests. The get method handles the HTTP GET call with retries and error checking:
+It logs debug info, attempts the request up to 3 times on failure, and backs off briefly between attempts.
+On a successful HTTP response, it parses JSON and then checks the "code" field in the JSON. Coinglass returns "code": "0" for success
+docs.coinglass.com
+, so any non-zero code is treated as an API error (logged and raised as an exception).
+Each specific fetch_* method (open interest, funding, etc.) builds the required query parameters (symbol, interval, etc.) and calls get with the appropriate endpoint. We default to a 4-hour interval for all, respecting Hobbyist limits. If needed, the methods accept optional start_time and end_time (Unix timestamps in ms) to constrain the historical range.
+The fetch_long_short_ratio_history method deserves special note: it by default uses the Top Accounts Long/Short Ratio endpoint
+docs.coinglass.com
+ with a specified exchange (default "Binance"). We include a parameter top_accounts to switch between top accounts vs. global accounts endpoints. (The Global Accounts Ratio endpoint
+docs.coinglass.com
+ also requires an exchange, so either way an exchange is specified. In our example, we only fetch the top trader ratio to keep it concise.)
+DataStorage Class: Manages the SQLite database operations. In the constructor, it connects to the database file and ensures the required tables exist by calling _ensure_tables. Each table corresponds to a data category:
+open_interest and funding_rate tables store time-series of OHLC values (with symbol and time as primary key).
+long_short_ratio table stores percentage of long vs short and their ratio, with columns for symbol, exchange, time, and a category (either "global" or "top" to distinguish which kind of ratio data it is). The primary key includes symbol, exchange, time, and category to avoid duplicate entries if the pipeline is run repeatedly.
+liquidations table stores the long and short liquidation volumes in USD for each symbol and time.
+Each insert_* method takes the data list returned by the API client and inserts the records into the appropriate table. We use INSERT OR IGNORE so that if a record with the same primary key already exists (e.g., from a previous run), it won’t be duplicated. This way, the pipeline can be re-run or scheduled without accumulating duplicate data.
+Data conversions: The API returns numeric values as strings in JSON
+docs.coinglass.com
+docs.coinglass.com
+, so we convert them to float or int when inserting into the database.
+Main Pipeline Run: Iterates over the target symbols (BTC and ETH). For each symbol, it sequentially:
+Fetches open interest history and stores it.
+Fetches funding rate history and stores it.
+Fetches long/short ratio history for top accounts (and optionally could fetch global ratio) and stores it.
+Fetches liquidation history and stores it.
+Each step is wrapped in a try-except so that if one symbol’s data fails (e.g., a network issue), it logs the error and continues with the next symbol, rather than aborting the entire run. After processing all symbols, the database connection is closed gracefully.
+Usage and Next Steps
+Running the Pipeline: To use the script, insert your Coinglass API key, then run the script (e.g., python coinglass_pipeline.py). It will create/append to coinglass_data.db in the current directory and log progress to both the console and pipeline.log. On first run, it fetches the full available history for each data type (with 4h granularity). On subsequent runs, thanks to primary keys and INSERT OR IGNORE, it will only add new records (if any). For scheduling, you can set up a cron job or task scheduler to run this script periodically (e.g., daily at midnight to get the latest 4h data points).
+Data Verification: The SQLite database can be inspected using any SQL client or even Python itself to ensure data is collected as expected. For example, one can connect with sqlite3 and run queries like SELECT COUNT(*) FROM open_interest WHERE symbol='BTC'; to see the number of records, etc.
+Real-Time and Expansion: The current pipeline pulls historical data at a fixed interval. It can be expanded for real-time analysis by integrating Coinglass WebSocket endpoints (the API provides real-time feeds for liquidations and trades) or by reducing the interval if the API plan is upgraded (e.g., higher-tier plans allow 1m or 1h intervals). The modular design (with separate client methods and storage functions) makes it straightforward to add new endpoints (e.g., options data, order book stats) or to adapt storage (e.g., to CSV or a cloud database) if requirements change.
+Reliability Considerations: We’ve included basic retry logic and error handling. In a production setting, you might enhance this with exponential backoff for rate-limit errors
+docs.coinglass.com
+ or more sophisticated logging (including alerting on failures). However, the provided solution covers the essentials for a dependable data pipeline with minimal external dependencies, tailored to an experienced user’s analysis needs.
