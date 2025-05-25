@@ -33,5 +33,10 @@ Following these tasks will get the pipeline up and running so you can collect BT
 - Added `requirements.txt` listing required packages.
 - Added `.gitignore` to exclude cache and database files from version control.
 - Updated `coinglass_pipeline.py` to read the API key from the `COINGLASS_API_KEY` environment variable if available.
+
 - Added a "Setup" section to the README with step-by-step instructions on installing Python, installing dependencies, setting the `COINGLASS_API_KEY` variable, and running the pipeline.
 - Next step: follow the new Setup section in the README to configure your environment and execute the script.
+
+- Added a simple `pytest` test and documented how to run it.
+- Next step: set your API key via the environment variable or directly in the script,
+  then run `pip install -r requirements.txt` and `pytest` before executing the pipeline.
