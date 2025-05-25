@@ -8,6 +8,7 @@ familiar with Python.
 """
 
 import logging
+import os
 import time
 import sqlite3
 from typing import List, Dict
@@ -19,7 +20,16 @@ import requests
 # ------------------------
 
 # Replace the placeholder below with your actual API key from Coinglass.
-API_KEY = "<YOUR_COINGLASS_API_KEY>"  # TODO: Set your Coinglass API key here.
+# You can also set an environment variable named ``COINGLASS_API_KEY`` so
+# you do not need to edit this file each time.
+API_KEY = os.getenv("COINGLASS_API_KEY", "<YOUR_COINGLASS_API_KEY>")
+
+if API_KEY == "<YOUR_COINGLASS_API_KEY>":
+    logging.warning(
+        "Please set your Coinglass API key. Either edit API_KEY in the script "
+        "or set the COINGLASS_API_KEY environment variable."
+    )
+
 BASE_URL = "https://open-api-v4.coinglass.com/api"
 
 # Endpoints we will call for each type of data.
