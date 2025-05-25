@@ -29,6 +29,7 @@ if API_KEY == "<YOUR_COINGLASS_API_KEY>":
         "Please set your Coinglass API key. Either edit API_KEY in the script "
         "or set the COINGLASS_API_KEY environment variable."
     )
+
 BASE_URL = "https://open-api-v4.coinglass.com/api"
 
 # Endpoints we will call for each type of data.
