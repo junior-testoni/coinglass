@@ -1,59 +1,23 @@
-# coinglassCoinglass BTC/ETH Data Pipeline – Plan & Implementation
-Overview and Plan
-To reliably gather BTC and ETH derivatives data (open interest, long/short ratios, liquidations, funding rates) from the Coinglass Hobbyist API, we will build a structured Python pipeline. The solution will emphasize modular design, error handling, and easy maintenance, enabling future scheduling or real-time upgrades. Key steps include:
-Authentication Setup: Use the Coinglass API key (from the Hobbyist plan) in request headers for every call
-docs.coinglass.com
-. Without the header, requests are rejected (HTTP 401).
-Define Target Endpoints: Identify and utilize the API endpoints (available to Hobbyist) for each data type:
-Open Interest: Aggregated open interest history (across all exchanges)
-docs.coinglass.com
-.
-Long/Short Ratio: Long vs short account ratio history (for all accounts or top traders)
-docs.coinglass.com
-.
-Liquidations: Aggregated long & short liquidation history across exchanges
-docs.coinglass.com
-.
-Funding Rates: Open-Interest-weighted funding rate history (aggregated)
-docs.coinglass.com
-.
-Note: Hobbyist plan supports these endpoints with a minimum interval of 4 hours
-docs.coinglass.com
-docs.coinglass.com
-, so we will use 4h or higher time granularity for historical data.
-Modular Design: Create a reusable API client class (e.g., CoinglassClient) to handle HTTP requests, apply the API key, and implement methods for each data type (OI, ratios, etc.). This keeps code DRY and easy to extend.
-Robust Error Handling: Implement checks and retries for HTTP errors or API rate limits. Log failures with clear messages (using Python’s logging module) to troubleshoot issues without crashing the pipeline.
-Local Storage: Save data in a structured format that is analysis-friendly and persistent. We will use an SQLite database (built-in Python sqlite3) to store results in tables (one per data type) with schema designed for queryability. SQLite offers reliability and thread-safety for scheduled tasks, and minimal external dependencies. (Alternatively, CSV files could be used for simplicity, but a database avoids manual deduplication and is easily queryable.)
-Reusability and Scheduling: The code will be organized so that fetching for multiple symbols (BTC, ETH) and multiple endpoints is straightforward. Functions can be called in loops or scheduled jobs (e.g., via cron or an Airflow DAG) to update data regularly. The modular structure also allows real-time expansion (e.g., switching to Coinglass WebSocket streams in the future) without major refactoring.
-Documentation: Use descriptive function names, docstrings, and comments to explain each component’s role. This helps future maintenance and any AI assistant that might read the code to assist with analysis.
-Next, we present the Python implementation following this plan, with inline documentation explaining each part's role.
-## Setup
-If you're new to coding, don't worry. These steps will get you ready to run the pipeline:
+# Coinglass BTC/ETH Data Pipeline – Plan & Implementation
 
-1. **Install Python 3** if it isn't already on your computer. You can download it from [python.org](https://www.python.org/downloads/).
-2. Open a terminal (Command Prompt on Windows or any Terminal app on macOS/Linux) and run:
-   ```
-   pip install -r requirements.txt
-   ```
-   This installs the `requests` package the script needs.
-3. Set your Coinglass API key so the script can authenticate:
-   - **Windows (Command Prompt):**
-     ```
-     set COINGLASS_API_KEY=your_api_key_here
-     ```
-   - **Windows (PowerShell):**
-     ```
-     $env:COINGLASS_API_KEY="your_api_key_here"
-     ```
-   - **macOS/Linux:**
-     ```
-     export COINGLASS_API_KEY=your_api_key_here
-     ```
-4. Run the pipeline with:
-   ```
-   python coinglass_pipeline.py
-   ```
-   The script will download data and store it in `coinglass_data.db`.
+## Overview and Plan
+
+To reliably gather BTC and ETH derivatives data (open interest, long/short ratios, liquidations, funding rates) from the Coinglass Hobbyist API, we will build a structured Python pipeline. The solution will emphasize modular design, error handling, and easy maintenance, enabling future scheduling or real-time upgrades. Key steps include:
+
+- **Authentication Setup:** Use the Coinglass API key from the Hobbyist plan in request headers for every call. Without the header, requests are rejected (HTTP 401).
+- **Define Target Endpoints:** Identify and utilize the API endpoints available to Hobbyist users for each data type:
+  - Open Interest – Aggregated open interest history across all exchanges.
+  - Long/Short Ratio – Long versus short account ratio history for all accounts or top traders.
+  - Liquidations – Aggregated long and short liquidation history across exchanges.
+  - Funding Rates – Open-interest-weighted funding rate history.
+- **Note:** Hobbyist plan supports these endpoints with a minimum interval of 4 hours, so we will use 4h or higher granularity for historical data.
+- **Modular Design:** Create a reusable API client class (e.g., `CoinglassClient`) to handle HTTP requests, apply the API key, and implement methods for each data type. This keeps the code easy to extend.
+- **Robust Error Handling:** Implement checks and retries for HTTP errors or API rate limits. Log failures with clear messages to troubleshoot issues without crashing the pipeline.
+- **Local Storage:** Save data in an analysis-friendly format using an SQLite database with tables designed for easy queries.
+- **Reusability and Scheduling:** Fetching for multiple symbols (BTC, ETH) and multiple endpoints should be straightforward. Functions can be called in loops or scheduled jobs (e.g., via cron) to update data regularly.
+- **Documentation:** Use descriptive function names, docstrings, and comments to explain each component’s role.
+
+Next, we present the Python implementation following this plan, with inline documentation explaining each part's role.
 Implementation Structure
 Below is a well-documented Python script for the pipeline. It can be treated as a single script or organized into modules (e.g., coinglass_client.py and main.py) as needed. Comments and docstrings describe how each piece contributes to the overall functionality:
 python
@@ -73,11 +37,7 @@ BASE_URL = "https://open-api-v4.coinglass.com/api"  # Base URL for Coinglass API
 
 # Define endpoints for each data type. Endpoints are chosen for Hobbyist availability.
 ENDPOINTS = {
-    "open_interest": "/futures/open-interest/aggregated-history",   # Aggregated OI across exchanges:contentReference[oaicite:7]{index=7}
-    "funding_rate": "/futures/funding-rate/oi-weight-history",      # OI-weighted funding rate:contentReference[oaicite:8]{index=8}
-    "long_short_ratio": "/futures/top-long-short-account-ratio/history",  # Top traders long/short ratio:contentReference[oaicite:9]{index=9}
     # ^ Using top accounts ratio; alternatively, could use global accounts ratio endpoint (requires exchange param).
-    "liquidations": "/futures/liquidation/aggregated-history"       # Aggregated liquidation data:contentReference[oaicite:10]{index=10}
 }
 
 # Database file (SQLite) for storing fetched data
@@ -108,7 +68,6 @@ class CoinglassClient:
         # Attach API key to headers for all requests
         self.session.headers.update({
             "accept": "application/json",
-            "CG-API-KEY": self.api_key  # Authentication header as per Coinglass docs:contentReference[oaicite:11]{index=11}
         })
     
     def get(self, endpoint: str, params: dict) -> dict:
@@ -159,7 +118,6 @@ class CoinglassClient:
     def fetch_open_interest_history(self, symbol: str, interval: str = "4h", start_time: int = None, end_time: int = None):
         """
         Fetch aggregated open interest history for a given symbol.
-        Interval must be >=4h for Hobbyist:contentReference[oaicite:12]{index=12}. Optionally specify start_time/end_time in ms.
         """
         params = {"symbol": symbol, "interval": interval}
         if start_time: 
@@ -171,7 +129,6 @@ class CoinglassClient:
     
     def fetch_funding_rate_history(self, symbol: str, interval: str = "4h", start_time: int = None, end_time: int = None):
         """
-        Fetch open-interest-weighted funding rate history for a given symbol:contentReference[oaicite:13]{index=13}.
         Interval must be >=4h for Hobbyist. Returns funding rates as list of OHLC values.
         """
         params = {"symbol": symbol, "interval": interval}
@@ -184,7 +141,6 @@ class CoinglassClient:
     
     def fetch_long_short_ratio_history(self, symbol: str, interval: str = "4h", exchange: str = "Binance", top_accounts: bool = True):
         """
-        Fetch long/short ratio history for a symbol. By default, fetches *top accounts* ratio:contentReference[oaicite:14]{index=14} on a given exchange.
         If top_accounts=False, you could use the global accounts ratio endpoint (requires exchange).
         Coinglass requires specifying exchange for long/short ratios on futures.
         """
@@ -199,7 +155,6 @@ class CoinglassClient:
     
     def fetch_liquidation_history(self, symbol: str, interval: str = "4h", start_time: int = None, end_time: int = None):
         """
-        Fetch aggregated liquidation history for a given coin:contentReference[oaicite:15]{index=15}, across all futures exchanges.
         Returns list of data points with long and short liquidation USD amounts.
         """
         params = {"symbol": symbol, "interval": interval}
@@ -294,8 +249,6 @@ class DataStorage:
     def insert_long_short_ratio(self, symbol: str, exchange: str, data_points: list, category: str):
         """Insert long/short ratio records (global or top accounts) for a symbol on a given exchange."""
         # data_point keys: time, and depending on endpoint:
-        # - For top accounts: top_account_long_percent, top_account_short_percent, top_account_long_short_ratio:contentReference[oaicite:16]{index=16}
-        # - For global accounts: global_account_long_percent, global_account_short_percent, global_account_long_short_ratio:contentReference[oaicite:17]{index=17}
         rows = []
         for dp in data_points:
             if "global_account_long_percent" in dp:
@@ -316,7 +269,6 @@ class DataStorage:
     
     def insert_liquidations(self, symbol: str, data_points: list):
         """Insert liquidation records for a symbol."""
-        # data_point keys: time, aggregated_long_liquidation_usd, aggregated_short_liquidation_usd:contentReference[oaicite:18]{index=18}
         rows = [(symbol, int(dp["time"]), float(dp["aggregated_long_liquidation_usd"]), 
                  float(dp["aggregated_short_liquidation_usd"])) for dp in data_points]
         self.cur.executemany(
