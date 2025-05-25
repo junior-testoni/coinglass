@@ -27,6 +27,33 @@ Local Storage: Save data in a structured format that is analysis-friendly and pe
 Reusability and Scheduling: The code will be organized so that fetching for multiple symbols (BTC, ETH) and multiple endpoints is straightforward. Functions can be called in loops or scheduled jobs (e.g., via cron or an Airflow DAG) to update data regularly. The modular structure also allows real-time expansion (e.g., switching to Coinglass WebSocket streams in the future) without major refactoring.
 Documentation: Use descriptive function names, docstrings, and comments to explain each component’s role. This helps future maintenance and any AI assistant that might read the code to assist with analysis.
 Next, we present the Python implementation following this plan, with inline documentation explaining each part's role.
+## Setup
+If you're new to coding, don't worry. These steps will get you ready to run the pipeline:
+
+1. **Install Python 3** if it isn't already on your computer. You can download it from [python.org](https://www.python.org/downloads/).
+2. Open a terminal (Command Prompt on Windows or any Terminal app on macOS/Linux) and run:
+   ```
+   pip install -r requirements.txt
+   ```
+   This installs the `requests` package the script needs.
+3. Set your Coinglass API key so the script can authenticate:
+   - **Windows (Command Prompt):**
+     ```
+     set COINGLASS_API_KEY=your_api_key_here
+     ```
+   - **Windows (PowerShell):**
+     ```
+     $env:COINGLASS_API_KEY="your_api_key_here"
+     ```
+   - **macOS/Linux:**
+     ```
+     export COINGLASS_API_KEY=your_api_key_here
+     ```
+4. Run the pipeline with:
+   ```
+   python coinglass_pipeline.py
+   ```
+   The script will download data and store it in `coinglass_data.db`.
 Implementation Structure
 Below is a well-documented Python script for the pipeline. It can be treated as a single script or organized into modules (e.g., coinglass_client.py and main.py) as needed. Comments and docstrings describe how each piece contributes to the overall functionality:
 python
