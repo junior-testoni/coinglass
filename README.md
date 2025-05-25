@@ -18,7 +18,6 @@ To reliably gather BTC and ETH derivatives data (open interest, long/short ratio
 - **Documentation:** Use descriptive function names, docstrings, and comments to explain each component’s role.
 
 Next, we present the Python implementation following this plan, with inline documentation explaining each part's role.
-
 Implementation Structure
 Below is a well-documented Python script for the pipeline. It can be treated as a single script or organized into modules (e.g., coinglass_client.py and main.py) as needed. Comments and docstrings describe how each piece contributes to the overall functionality:
 python
