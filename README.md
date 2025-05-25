@@ -365,3 +365,5 @@ Real-Time and Expansion: The current pipeline pulls historical data at a fixed i
 Reliability Considerations: We’ve included basic retry logic and error handling. In a production setting, you might enhance this with exponential backoff for rate-limit errors
 docs.coinglass.com
  or more sophisticated logging (including alerting on failures). However, the provided solution covers the essentials for a dependable data pipeline with minimal external dependencies, tailored to an experienced user’s analysis needs.
+## Running Tests
+To make sure everything works, you can run a simple test suite. After installing the requirements with `pip install -r requirements.txt`, run `pytest` from the command line. Pytest will load the tests in the `tests/` folder and report if the import succeeds.
