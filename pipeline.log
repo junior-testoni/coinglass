@@ -22,3 +22,24 @@
 2025-05-26 12:29:38,973 [INFO] Stored 1000 funding rate records for ETH
 2025-05-26 12:29:39,139 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
 2025-05-26 12:29:39,140 [INFO] Data pipeline run completed.
+2025-05-26 12:57:46,181 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 12:57:46,358 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 12:57:46,521 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 12:57:46,699 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 12:57:46,873 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 12:57:47,037 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 12:57:47,037 [INFO] Data pipeline run completed.
+2025-05-26 13:00:28,287 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 13:00:28,467 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 13:00:28,630 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:00:28,810 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 13:00:28,985 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 13:00:29,148 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:00:29,149 [INFO] Data pipeline run completed.
+2025-05-26 13:01:55,729 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 13:01:55,908 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 13:01:56,073 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:01:56,252 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 13:01:56,432 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 13:01:56,597 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:01:56,598 [INFO] Data pipeline run completed.
