@@ -73,4 +73,7 @@ Following these tasks will get the pipeline up and running so you can collect BT
   least two seconds. This keeps the pipeline under the Hobbyist limit of 30
   requests per minute.
   Next step: run `pytest -q` and run the pipeline to confirm no rate limit
-  errors occur.
+
+- Limited additional endpoint fetching to a subset (`DEFAULT_ADDITIONAL_ENDPOINTS`)
+  that works without extra parameters. Update this list if you need more data.
+

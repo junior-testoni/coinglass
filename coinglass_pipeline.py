@@ -19,7 +19,7 @@ import json
 from typing import List, Dict
 
 import requests
-from coinglass_endpoints import ADDITIONAL_ENDPOINTS
+from coinglass_endpoints import DEFAULT_ADDITIONAL_ENDPOINTS
 
 # ------------------------
 # Configuration
@@ -54,9 +54,9 @@ ENDPOINTS = {
     "liquidations": "/api/futures/liquidation/aggregated-history",
 }
 
-# ADDITIONAL_ENDPOINTS (imported above) contains many more API paths that you
-# may wish to collect. The main script shows how to fetch a couple of them as
-# an example.
+# DEFAULT_ADDITIONAL_ENDPOINTS (imported above) contains a few extra API paths
+# that work without extra parameters. You can edit that list to call other
+# endpoints if you have the required plan and parameters.
 
 # SQLite database file
 DB_FILE = "coinglass_data.db"
@@ -430,11 +430,10 @@ if __name__ == "__main__":
             logging.error("Error fetching data for %s: %s", sym, exc)
             continue
 
-    # Fetch every additional endpoint listed in ``coinglass_endpoints.py``.
-    # Some of these API calls need parameters, but here we simply call them
-    # without any. If an endpoint fails, we log the error and continue so the
-    # rest of the pipeline still runs.
-    for ep_name, ep_path in ADDITIONAL_ENDPOINTS.items():
+    # Fetch a few extra endpoints that do not require parameters. The list of
+    # endpoints is defined in ``DEFAULT_ADDITIONAL_ENDPOINTS``. Feel free to
+    # modify it if you want to retrieve more data.
+    for ep_name, ep_path in DEFAULT_ADDITIONAL_ENDPOINTS.items():
         try:
             # ``fetch_generic`` expects just the endpoint path. It will
             # combine it with ``BASE_URL`` internally to build the full URL.

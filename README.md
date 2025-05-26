@@ -372,8 +372,10 @@ To make sure everything works, you can run a simple test suite. After installing
 
 The Coinglass API provides many more endpoints than those used in the basic
 pipeline. The file `coinglass_endpoints.py` lists these extra paths so you can
-expand the data you collect. The table below summarizes the available
-endpoints and what each one returns.
+expand the data you collect. Only a handful work without additional
+parameters, so the script fetches that subset by default (see
+`DEFAULT_ADDITIONAL_ENDPOINTS` in the code). The table below summarizes the
+available endpoints and what each one returns.
 
 | Endpoints | Description |
 | --- | --- |
