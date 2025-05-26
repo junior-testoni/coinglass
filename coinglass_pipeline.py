@@ -19,7 +19,7 @@ import json
 from typing import List, Dict
 
 import requests
-from coinglass_endpoints import ADDITIONAL_ENDPOINTS
+from coinglass_endpoints import DEFAULT_ADDITIONAL_ENDPOINTS
 
 # ------------------------
 # Configuration
@@ -54,9 +54,9 @@ ENDPOINTS = {
     "liquidations": "/api/futures/liquidation/aggregated-history",
 }
 
-# ADDITIONAL_ENDPOINTS (imported above) contains many more API paths that you
-# may wish to collect. The main script shows how to fetch a couple of them as
-# an example.
+# DEFAULT_ADDITIONAL_ENDPOINTS (imported above) contains a few extra API paths
+# that work without extra parameters. You can edit that list to call other
+# endpoints if you have the required plan and parameters.
 
 # SQLite database file
 DB_FILE = "coinglass_data.db"
@@ -70,15 +70,42 @@ logging.basicConfig(
 
 
 class CoinglassClient:
-    """Simple client for calling the Coinglass REST API."""
+    """Simple client for calling the Coinglass REST API.
 
-    def __init__(self, api_key: str, base_url: str = BASE_URL) -> None:
+    Parameters
+    ----------
+    api_key : str
+        Your Coinglass API key.
+    base_url : str, optional
+        Base URL for all API requests.
+    max_requests_per_minute : int, optional
+        Limit on the number of requests we should send each minute.  The
+        default of ``30`` matches the Hobbyist plan allowance.
+    """
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = BASE_URL,
+        max_requests_per_minute: int = 30,
+    ) -> None:
         self.session = requests.Session()
         self.session.headers.update({
             "accept": "application/json",
             "CG-API-KEY": api_key,
         })
         self.base_url = base_url
+        # Track time between requests so we do not exceed the rate limit.
+        self.min_interval = 60.0 / float(max_requests_per_minute)
+        self.last_request_time = 0.0
+
+    def _respect_rate_limit(self) -> None:
+        """Pause if the last request was sent too recently."""
+        elapsed = time.time() - self.last_request_time
+        if elapsed < self.min_interval:
+            wait_time = self.min_interval - elapsed
+            logging.debug("Sleeping %.2f seconds to respect rate limit", wait_time)
+            time.sleep(wait_time)
 
     def _get(self, endpoint: str, params: Dict) -> List[Dict]:
         """Send a GET request and return the ``data`` field from the JSON response."""
@@ -90,7 +117,9 @@ class CoinglassClient:
         for attempt in range(1, max_retries + 1):
             try:
                 logging.debug("Requesting %s", url)
+                self._respect_rate_limit()
                 resp = self.session.get(url, params=params, timeout=10)
+                self.last_request_time = time.time()
             except requests.RequestException as exc:  # Network problem
                 logging.warning("Network error: %s", exc)
                 if attempt < max_retries:
@@ -401,11 +430,10 @@ if __name__ == "__main__":
             logging.error("Error fetching data for %s: %s", sym, exc)
             continue
 
-    # Fetch every additional endpoint listed in ``coinglass_endpoints.py``.
-    # Some of these API calls need parameters, but here we simply call them
-    # without any. If an endpoint fails, we log the error and continue so the
-    # rest of the pipeline still runs.
-    for ep_name, ep_path in ADDITIONAL_ENDPOINTS.items():
+    # Fetch a few extra endpoints that do not require parameters. The list of
+    # endpoints is defined in ``DEFAULT_ADDITIONAL_ENDPOINTS``. Feel free to
+    # modify it if you want to retrieve more data.
+    for ep_name, ep_path in DEFAULT_ADDITIONAL_ENDPOINTS.items():
         try:
             # ``fetch_generic`` expects just the endpoint path. It will
             # combine it with ``BASE_URL`` internally to build the full URL.

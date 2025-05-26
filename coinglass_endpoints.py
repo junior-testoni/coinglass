@@ -110,5 +110,20 @@ ADDITIONAL_ENDPOINTS = {
     "bull_market_peak_indicator": "/api/bull-market-peak-indicator",
     "two_year_ma_multiplier": "/api/index/2-year-ma-multiplier",
     "two_hundred_week_ma_heatmap": "/api/index/200-week-moving-average-heatmap",
-    "borrow_interest_rate_history": "/api/borrow-interest-rate/history",
+"borrow_interest_rate_history": "/api/borrow-interest-rate/history",
+}
+
+# A small subset of the above endpoints works without extra parameters and
+# is accessible with the free Hobbyist plan. The pipeline uses this subset
+# by default so it doesn't hit endpoints that require paid access or
+# additional query arguments.
+DEFAULT_ADDITIONAL_ENDPOINTS = {
+    name: ADDITIONAL_ENDPOINTS[name]
+    for name in [
+        "liquidation_coin_list",
+        "hyperliquid_whale_alert",
+        "spot_supported_coins",
+        "spot_supported_exchange_pairs",
+        "option_exchange_vol_history",
+    ]
 }
