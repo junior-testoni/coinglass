@@ -61,3 +61,249 @@
 2025-05-26 13:22:48,357 [INFO] Stored 829 raw records from futures_supported_coins
 2025-05-26 13:22:48,703 [INFO] Stored 20 raw records from futures_supported_exchange_pairs
 2025-05-26 13:22:48,703 [INFO] Data pipeline run completed.
+2025-05-26 13:35:14,183 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 13:35:14,358 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 13:35:14,523 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:35:14,701 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 13:35:14,881 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 13:35:15,192 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:35:15,364 [INFO] Stored 829 raw records from futures_supported_coins
+2025-05-26 13:35:15,846 [INFO] Stored 20 raw records from futures_supported_exchange_pairs
+2025-05-26 13:35:16,170 [WARNING] HTTP 404: {"timestamp":1748266516117,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/pairs-markets"}
+2025-05-26 13:35:18,181 [WARNING] HTTP 404: {"timestamp":1748266516117,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/pairs-markets"}
+2025-05-26 13:35:20,190 [WARNING] HTTP 404: {"timestamp":1748266516117,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/pairs-markets"}
+2025-05-26 13:35:20,190 [ERROR] Error fetching futures_pairs_markets: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/pairs-markets
+2025-05-26 13:35:20,506 [WARNING] HTTP 404: {"timestamp":1748266520460,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/coins-markets"}
+2025-05-26 13:35:22,516 [WARNING] HTTP 404: {"timestamp":1748266520460,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/coins-markets"}
+2025-05-26 13:35:24,531 [WARNING] HTTP 404: {"timestamp":1748266520460,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/coins-markets"}
+2025-05-26 13:35:24,532 [ERROR] Error fetching futures_coins_markets: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/coins-markets
+2025-05-26 13:35:24,854 [WARNING] HTTP 404: {"timestamp":1748266524802,"status":404,"error":"Not Found","message":"","path":"/v4/api/futures/price-change-list"}
+2025-05-26 13:35:26,865 [WARNING] HTTP 404: {"timestamp":1748266524802,"status":404,"error":"Not Found","message":"","path":"/v4/api/futures/price-change-list"}
+2025-05-26 13:35:28,877 [WARNING] HTTP 404: {"timestamp":1748266524802,"status":404,"error":"Not Found","message":"","path":"/v4/api/futures/price-change-list"}
+2025-05-26 13:35:28,878 [ERROR] Error fetching futures_price_change_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/futures/price-change-list
+2025-05-26 13:35:29,196 [WARNING] HTTP 404: {"timestamp":1748266529146,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/price/ohlc-history"}
+2025-05-26 13:35:31,207 [WARNING] HTTP 404: {"timestamp":1748266529146,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/price/ohlc-history"}
+2025-05-26 13:35:33,216 [WARNING] HTTP 404: {"timestamp":1748266529146,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/price/ohlc-history"}
+2025-05-26 13:35:33,216 [ERROR] Error fetching price_ohlc_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/price/ohlc-history
+2025-05-26 13:35:33,762 [WARNING] HTTP 404: {"timestamp":1748266533713,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-history"}
+2025-05-26 13:35:35,771 [WARNING] HTTP 404: {"timestamp":1748266533713,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-history"}
+2025-05-26 13:35:37,779 [WARNING] HTTP 404: {"timestamp":1748266533713,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-history"}
+2025-05-26 13:35:37,780 [ERROR] Error fetching oi_ohlc_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/openInterest/ohlc-history
+2025-05-26 13:35:38,096 [WARNING] HTTP 404: {"timestamp":1748266538048,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-history"}
+2025-05-26 13:35:40,107 [WARNING] HTTP 404: {"timestamp":1748266538048,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-history"}
+2025-05-26 13:35:42,115 [WARNING] HTTP 404: {"timestamp":1748266538048,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-history"}
+2025-05-26 13:35:42,115 [ERROR] Error fetching oi_ohlc_aggregated_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/openInterest/ohlc-aggregated-history
+2025-05-26 13:35:42,437 [WARNING] HTTP 404: {"timestamp":1748266542384,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-stablecoin"}
+2025-05-26 13:35:44,446 [WARNING] HTTP 404: {"timestamp":1748266542384,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-stablecoin"}
+2025-05-26 13:35:46,454 [WARNING] HTTP 404: {"timestamp":1748266542384,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-stablecoin"}
+2025-05-26 13:35:46,455 [ERROR] Error fetching oi_ohlc_aggregated_stablecoin: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/openInterest/ohlc-aggregated-stablecoin
+2025-05-26 13:35:46,626 [WARNING] HTTP 404: {"timestamp":1748266546574,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-coin-margin-history"}
+2025-05-26 13:35:48,635 [WARNING] HTTP 404: {"timestamp":1748266546574,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-coin-margin-history"}
+2025-05-26 13:35:50,644 [WARNING] HTTP 404: {"timestamp":1748266546574,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/ohlc-aggregated-coin-margin-history"}
+2025-05-26 13:35:50,644 [ERROR] Error fetching oi_ohlc_aggregated_coin_margin: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/openInterest/ohlc-aggregated-coin-margin-history
+2025-05-26 13:35:50,967 [WARNING] HTTP 404: {"timestamp":1748266550916,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/exchange-list"}
+2025-05-26 13:35:52,977 [WARNING] HTTP 404: {"timestamp":1748266550916,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/exchange-list"}
+2025-05-26 13:35:54,986 [WARNING] HTTP 404: {"timestamp":1748266550916,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/exchange-list"}
+2025-05-26 13:35:54,986 [ERROR] Error fetching oi_exchange_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/openInterest/exchange-list
+2025-05-26 13:35:55,321 [WARNING] HTTP 404: {"timestamp":1748266555261,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/exchange-history-chart"}
+2025-05-26 13:35:57,332 [WARNING] HTTP 404: {"timestamp":1748266555261,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/exchange-history-chart"}
+2025-05-26 13:35:59,340 [WARNING] HTTP 404: {"timestamp":1748266555261,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/openInterest/exchange-history-chart"}
+2025-05-26 13:35:59,341 [ERROR] Error fetching oi_exchange_history_chart: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/openInterest/exchange-history-chart
+2025-05-26 13:35:59,659 [WARNING] HTTP 404: {"timestamp":1748266559607,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/ohlc-history"}
+2025-05-26 13:36:01,670 [WARNING] HTTP 404: {"timestamp":1748266559607,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/ohlc-history"}
+2025-05-26 13:36:03,696 [WARNING] HTTP 404: {"timestamp":1748266559607,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/ohlc-history"}
+2025-05-26 13:36:03,697 [ERROR] Error fetching funding_rate_ohlc_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/fundingRate/ohlc-history
+2025-05-26 13:36:04,026 [WARNING] HTTP 404: {"timestamp":1748266563975,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/oi-weight-ohlc-history"}
+2025-05-26 13:36:06,037 [WARNING] HTTP 404: {"timestamp":1748266563975,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/oi-weight-ohlc-history"}
+2025-05-26 13:36:08,046 [WARNING] HTTP 404: {"timestamp":1748266563975,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/oi-weight-ohlc-history"}
+2025-05-26 13:36:08,046 [ERROR] Error fetching funding_rate_oi_weighted: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/fundingRate/oi-weight-ohlc-history
+2025-05-26 13:36:08,359 [WARNING] HTTP 404: {"timestamp":1748266568312,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/vol-weight-ohlc-history"}
+2025-05-26 13:36:10,369 [WARNING] HTTP 404: {"timestamp":1748266568312,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/vol-weight-ohlc-history"}
+2025-05-26 13:36:12,378 [WARNING] HTTP 404: {"timestamp":1748266568312,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/vol-weight-ohlc-history"}
+2025-05-26 13:36:12,378 [ERROR] Error fetching funding_rate_vol_weighted: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/fundingRate/vol-weight-ohlc-history
+2025-05-26 13:36:12,695 [WARNING] HTTP 404: {"timestamp":1748266572649,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/exchange-list"}
+2025-05-26 13:36:14,704 [WARNING] HTTP 404: {"timestamp":1748266572649,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/exchange-list"}
+2025-05-26 13:36:16,712 [WARNING] HTTP 404: {"timestamp":1748266572649,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/exchange-list"}
+2025-05-26 13:36:16,712 [ERROR] Error fetching funding_rate_exchange_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/fundingRate/exchange-list
+2025-05-26 13:36:17,034 [WARNING] HTTP 404: {"timestamp":1748266576983,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/accumulated-exchange-list"}
+2025-05-26 13:36:19,045 [WARNING] HTTP 404: {"timestamp":1748266576983,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/accumulated-exchange-list"}
+2025-05-26 13:36:21,053 [WARNING] HTTP 404: {"timestamp":1748266576983,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/accumulated-exchange-list"}
+2025-05-26 13:36:21,053 [ERROR] Error fetching funding_rate_accumulated_exchange_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/fundingRate/accumulated-exchange-list
+2025-05-26 13:36:21,393 [WARNING] HTTP 404: {"timestamp":1748266581342,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/arbitrage"}
+2025-05-26 13:36:23,404 [WARNING] HTTP 404: {"timestamp":1748266581342,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/arbitrage"}
+2025-05-26 13:36:25,415 [WARNING] HTTP 404: {"timestamp":1748266581342,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/fundingRate/arbitrage"}
+2025-05-26 13:36:25,415 [ERROR] Error fetching funding_rate_arbitrage: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/fundingRate/arbitrage
+2025-05-26 13:36:25,791 [WARNING] HTTP 404: {"timestamp":1748266585743,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/global-long-short-account-ratio/history"}
+2025-05-26 13:36:27,803 [WARNING] HTTP 404: {"timestamp":1748266585743,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/global-long-short-account-ratio/history"}
+2025-05-26 13:36:29,812 [WARNING] HTTP 404: {"timestamp":1748266585743,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/global-long-short-account-ratio/history"}
+2025-05-26 13:36:29,813 [ERROR] Error fetching global_long_short_account_ratio: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/global-long-short-account-ratio/history
+2025-05-26 13:36:30,122 [WARNING] HTTP 404: {"timestamp":1748266590076,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/top-long-short-account-ratio/history"}
+2025-05-26 13:36:32,133 [WARNING] HTTP 404: {"timestamp":1748266590076,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/top-long-short-account-ratio/history"}
+2025-05-26 13:36:34,142 [WARNING] HTTP 404: {"timestamp":1748266590076,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/top-long-short-account-ratio/history"}
+2025-05-26 13:36:34,142 [ERROR] Error fetching top_long_short_account_ratio: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/top-long-short-account-ratio/history
+2025-05-26 13:36:34,311 [WARNING] HTTP 404: {"timestamp":1748266594264,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/top-long-short-position-ratio/history"}
+2025-05-26 13:36:36,321 [WARNING] HTTP 404: {"timestamp":1748266594264,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/top-long-short-position-ratio/history"}
+2025-05-26 13:36:38,329 [WARNING] HTTP 404: {"timestamp":1748266594264,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/top-long-short-position-ratio/history"}
+2025-05-26 13:36:38,329 [ERROR] Error fetching top_long_short_position_ratio: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/top-long-short-position-ratio/history
+2025-05-26 13:36:38,661 [WARNING] HTTP 404: {"timestamp":1748266598609,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/taker-buy-sell-volume/exchange-list"}
+2025-05-26 13:36:40,679 [WARNING] HTTP 404: {"timestamp":1748266598609,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/taker-buy-sell-volume/exchange-list"}
+2025-05-26 13:36:42,688 [WARNING] HTTP 404: {"timestamp":1748266598609,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/taker-buy-sell-volume/exchange-list"}
+2025-05-26 13:36:42,688 [ERROR] Error fetching taker_buy_sell_volume_exchange_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/taker-buy-sell-volume/exchange-list
+2025-05-26 13:36:43,010 [WARNING] HTTP 404: {"timestamp":1748266602963,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/history"}
+2025-05-26 13:36:45,019 [WARNING] HTTP 404: {"timestamp":1748266602963,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/history"}
+2025-05-26 13:36:47,029 [WARNING] HTTP 404: {"timestamp":1748266602963,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/history"}
+2025-05-26 13:36:47,029 [ERROR] Error fetching liquidation_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/history
+2025-05-26 13:36:47,344 [WARNING] HTTP 404: {"timestamp":1748266607293,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-history"}
+2025-05-26 13:36:49,354 [WARNING] HTTP 404: {"timestamp":1748266607293,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-history"}
+2025-05-26 13:36:51,362 [WARNING] HTTP 404: {"timestamp":1748266607293,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-history"}
+2025-05-26 13:36:51,362 [ERROR] Error fetching liquidation_aggregated_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/aggregated-history
+2025-05-26 13:36:51,688 [WARNING] HTTP 404: {"timestamp":1748266611640,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/coin-list"}
+2025-05-26 13:36:53,699 [WARNING] HTTP 404: {"timestamp":1748266611640,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/coin-list"}
+2025-05-26 13:36:55,707 [WARNING] HTTP 404: {"timestamp":1748266611640,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/coin-list"}
+2025-05-26 13:36:55,707 [ERROR] Error fetching liquidation_coin_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/coin-list
+2025-05-26 13:36:56,021 [WARNING] HTTP 404: {"timestamp":1748266615972,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/exchange-list"}
+2025-05-26 13:36:58,030 [WARNING] HTTP 404: {"timestamp":1748266615972,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/exchange-list"}
+2025-05-26 13:37:00,038 [WARNING] HTTP 404: {"timestamp":1748266615972,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/exchange-list"}
+2025-05-26 13:37:00,038 [ERROR] Error fetching liquidation_exchange_list: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/exchange-list
+2025-05-26 13:37:00,359 [WARNING] HTTP 404: {"timestamp":1748266620309,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/order"}
+2025-05-26 13:37:02,371 [WARNING] HTTP 404: {"timestamp":1748266620309,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/order"}
+2025-05-26 13:37:04,379 [WARNING] HTTP 404: {"timestamp":1748266620309,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/order"}
+2025-05-26 13:37:04,379 [ERROR] Error fetching liquidation_order: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/order
+2025-05-26 13:37:04,690 [WARNING] HTTP 404: {"timestamp":1748266624643,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model1"}
+2025-05-26 13:37:06,699 [WARNING] HTTP 404: {"timestamp":1748266624643,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model1"}
+2025-05-26 13:37:08,708 [WARNING] HTTP 404: {"timestamp":1748266624643,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model1"}
+2025-05-26 13:37:08,708 [ERROR] Error fetching liquidation_heatmap_model1: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/heatmap/model1
+2025-05-26 13:37:09,035 [WARNING] HTTP 404: {"timestamp":1748266628984,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model2"}
+2025-05-26 13:37:11,044 [WARNING] HTTP 404: {"timestamp":1748266628984,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model2"}
+2025-05-26 13:37:13,052 [WARNING] HTTP 404: {"timestamp":1748266628984,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model2"}
+2025-05-26 13:37:13,052 [ERROR] Error fetching liquidation_heatmap_model2: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/heatmap/model2
+2025-05-26 13:37:13,372 [WARNING] HTTP 404: {"timestamp":1748266633323,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model3"}
+2025-05-26 13:37:15,382 [WARNING] HTTP 404: {"timestamp":1748266633323,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model3"}
+2025-05-26 13:37:17,390 [WARNING] HTTP 404: {"timestamp":1748266633323,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/heatmap/model3"}
+2025-05-26 13:37:17,391 [ERROR] Error fetching liquidation_heatmap_model3: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/heatmap/model3
+2025-05-26 13:37:17,739 [WARNING] HTTP 404: {"timestamp":1748266637686,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model1"}
+2025-05-26 13:37:19,748 [WARNING] HTTP 404: {"timestamp":1748266637686,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model1"}
+2025-05-26 13:37:21,756 [WARNING] HTTP 404: {"timestamp":1748266637686,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model1"}
+2025-05-26 13:37:21,756 [ERROR] Error fetching liquidation_aggregated_heatmap_model1: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/aggregated-heatmap/model1
+2025-05-26 13:37:22,079 [WARNING] HTTP 404: {"timestamp":1748266642029,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model2"}
+2025-05-26 13:37:24,089 [WARNING] HTTP 404: {"timestamp":1748266642029,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model2"}
+2025-05-26 13:37:26,097 [WARNING] HTTP 404: {"timestamp":1748266642029,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model2"}
+2025-05-26 13:37:26,097 [ERROR] Error fetching liquidation_aggregated_heatmap_model2: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/aggregated-heatmap/model2
+2025-05-26 13:37:26,415 [WARNING] HTTP 404: {"timestamp":1748266646367,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model3"}
+2025-05-26 13:37:28,425 [WARNING] HTTP 404: {"timestamp":1748266646367,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model3"}
+2025-05-26 13:37:30,434 [WARNING] HTTP 404: {"timestamp":1748266646367,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-heatmap/model3"}
+2025-05-26 13:37:30,434 [ERROR] Error fetching liquidation_aggregated_heatmap_model3: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/aggregated-heatmap/model3
+2025-05-26 13:37:30,866 [WARNING] HTTP 404: {"timestamp":1748266650816,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/map"}
+2025-05-26 13:37:32,877 [WARNING] HTTP 404: {"timestamp":1748266650816,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/map"}
+2025-05-26 13:37:34,885 [WARNING] HTTP 404: {"timestamp":1748266650816,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/map"}
+2025-05-26 13:37:34,886 [ERROR] Error fetching liquidation_map: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/map
+2025-05-26 13:37:35,215 [WARNING] HTTP 404: {"timestamp":1748266655164,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-map"}
+2025-05-26 13:37:37,225 [WARNING] HTTP 404: {"timestamp":1748266655164,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-map"}
+2025-05-26 13:37:39,233 [WARNING] HTTP 404: {"timestamp":1748266655164,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/liquidation/aggregated-map"}
+2025-05-26 13:37:39,234 [ERROR] Error fetching liquidation_aggregated_map: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/liquidation/aggregated-map
+2025-05-26 13:37:40,862 [WARNING] HTTP 404: {"timestamp":1748266660783,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/ask-bids-history"}
+2025-05-26 13:37:42,872 [WARNING] HTTP 404: {"timestamp":1748266660783,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/ask-bids-history"}
+2025-05-26 13:37:44,880 [WARNING] HTTP 404: {"timestamp":1748266660783,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/ask-bids-history"}
+2025-05-26 13:37:44,881 [ERROR] Error fetching orderbook_ask_bids_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/orderbook/ask-bids-history
+2025-05-26 13:37:45,202 [WARNING] HTTP 404: {"timestamp":1748266665153,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/aggregated-ask-bids-history"}
+2025-05-26 13:37:47,211 [WARNING] HTTP 404: {"timestamp":1748266665153,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/aggregated-ask-bids-history"}
+2025-05-26 13:37:49,220 [WARNING] HTTP 404: {"timestamp":1748266665153,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/aggregated-ask-bids-history"}
+2025-05-26 13:37:49,220 [ERROR] Error fetching orderbook_aggregated_ask_bids_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/orderbook/aggregated-ask-bids-history
+2025-05-26 13:37:49,537 [WARNING] HTTP 404: {"timestamp":1748266669489,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/history"}
+2025-05-26 13:37:51,547 [WARNING] HTTP 404: {"timestamp":1748266669489,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/history"}
+2025-05-26 13:37:53,555 [WARNING] HTTP 404: {"timestamp":1748266669489,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/history"}
+2025-05-26 13:37:53,556 [ERROR] Error fetching orderbook_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/orderbook/history
+2025-05-26 13:37:53,725 [WARNING] HTTP 404: {"timestamp":1748266673677,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/large-limit-order"}
+2025-05-26 13:37:55,737 [WARNING] HTTP 404: {"timestamp":1748266673677,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/large-limit-order"}
+2025-05-26 13:37:57,745 [WARNING] HTTP 404: {"timestamp":1748266673677,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/large-limit-order"}
+2025-05-26 13:37:57,746 [ERROR] Error fetching orderbook_large_limit_order: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/orderbook/large-limit-order
+2025-05-26 13:37:58,075 [WARNING] HTTP 404: {"timestamp":1748266678024,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/large-limit-order-history"}
+2025-05-26 13:38:00,086 [WARNING] HTTP 404: {"timestamp":1748266678024,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/large-limit-order-history"}
+2025-05-26 13:38:02,094 [WARNING] HTTP 404: {"timestamp":1748266678024,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/orderbook/large-limit-order-history"}
+2025-05-26 13:38:02,095 [ERROR] Error fetching orderbook_large_limit_order_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/orderbook/large-limit-order-history
+2025-05-26 13:38:02,400 [WARNING] HTTP 404: {"timestamp":1748266682356,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/hyperliquid/whale-alert"}
+2025-05-26 13:38:04,410 [WARNING] HTTP 404: {"timestamp":1748266682356,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/hyperliquid/whale-alert"}
+2025-05-26 13:38:06,419 [WARNING] HTTP 404: {"timestamp":1748266682356,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/hyperliquid/whale-alert"}
+2025-05-26 13:38:06,419 [ERROR] Error fetching hyperliquid_whale_alert: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/hyperliquid/whale-alert
+2025-05-26 13:38:06,732 [WARNING] HTTP 404: {"timestamp":1748266686685,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/hyperliquid/whale-position"}
+2025-05-26 13:38:08,744 [WARNING] HTTP 404: {"timestamp":1748266686685,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/hyperliquid/whale-position"}
+2025-05-26 13:38:10,752 [WARNING] HTTP 404: {"timestamp":1748266686685,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/hyperliquid/whale-position"}
+2025-05-26 13:38:10,752 [ERROR] Error fetching hyperliquid_whale_position: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/hyperliquid/whale-position
+2025-05-26 13:38:11,066 [WARNING] HTTP 404: {"timestamp":1748266691017,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/taker-buy-sell-volume/history"}
+2025-05-26 13:38:13,076 [WARNING] HTTP 404: {"timestamp":1748266691017,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/taker-buy-sell-volume/history"}
+2025-05-26 13:38:15,087 [WARNING] HTTP 404: {"timestamp":1748266691017,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/taker-buy-sell-volume/history"}
+2025-05-26 13:38:15,087 [ERROR] Error fetching taker_buy_sell_volume_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/taker-buy-sell-volume/history
+2025-05-26 13:38:15,415 [WARNING] HTTP 404: {"timestamp":1748266695364,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/aggregated-taker-buy-sell-volume/history"}
+2025-05-26 13:38:17,425 [WARNING] HTTP 404: {"timestamp":1748266695364,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/aggregated-taker-buy-sell-volume/history"}
+2025-05-26 13:38:19,433 [WARNING] HTTP 404: {"timestamp":1748266695364,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/futures/aggregated-taker-buy-sell-volume/history"}
+2025-05-26 13:38:19,433 [ERROR] Error fetching aggregated_taker_buy_sell_volume_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/futures/aggregated-taker-buy-sell-volume/history
+2025-05-26 13:38:19,760 [WARNING] HTTP 404: {"timestamp":1748266699705,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/supported-coins"}
+2025-05-26 13:38:21,770 [WARNING] HTTP 404: {"timestamp":1748266699705,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/supported-coins"}
+2025-05-26 13:38:23,779 [WARNING] HTTP 404: {"timestamp":1748266699705,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/supported-coins"}
+2025-05-26 13:38:23,780 [ERROR] Error fetching spot_supported_coins: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/supported-coins
+2025-05-26 13:38:24,107 [WARNING] HTTP 404: {"timestamp":1748266704059,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/supported-exchange-pairs"}
+2025-05-26 13:38:26,117 [WARNING] HTTP 404: {"timestamp":1748266704059,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/supported-exchange-pairs"}
+2025-05-26 13:38:28,125 [WARNING] HTTP 404: {"timestamp":1748266704059,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/supported-exchange-pairs"}
+2025-05-26 13:38:28,126 [ERROR] Error fetching spot_supported_exchange_pairs: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/supported-exchange-pairs
+2025-05-26 13:38:28,433 [WARNING] HTTP 404: {"timestamp":1748266708387,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/coins-markets"}
+2025-05-26 13:38:30,444 [WARNING] HTTP 404: {"timestamp":1748266708387,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/coins-markets"}
+2025-05-26 13:38:32,452 [WARNING] HTTP 404: {"timestamp":1748266708387,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/coins-markets"}
+2025-05-26 13:38:32,453 [ERROR] Error fetching spot_coins_markets: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/coins-markets
+2025-05-26 13:38:32,779 [WARNING] HTTP 404: {"timestamp":1748266712729,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/pairs-markets"}
+2025-05-26 13:38:34,792 [WARNING] HTTP 404: {"timestamp":1748266712729,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/pairs-markets"}
+2025-05-26 13:38:36,800 [WARNING] HTTP 404: {"timestamp":1748266712729,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/pairs-markets"}
+2025-05-26 13:38:36,800 [ERROR] Error fetching spot_pairs_markets: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/pairs-markets
+2025-05-26 13:38:36,974 [WARNING] HTTP 404: {"timestamp":1748266716924,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/price/history"}
+2025-05-26 13:38:38,984 [WARNING] HTTP 404: {"timestamp":1748266716924,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/price/history"}
+2025-05-26 13:38:40,992 [WARNING] HTTP 404: {"timestamp":1748266716924,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/price/history"}
+2025-05-26 13:38:40,992 [ERROR] Error fetching spot_price_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/price/history
+2025-05-26 13:38:41,323 [WARNING] HTTP 404: {"timestamp":1748266721276,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/ask-bids-history"}
+2025-05-26 13:38:43,332 [WARNING] HTTP 404: {"timestamp":1748266721276,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/ask-bids-history"}
+2025-05-26 13:38:45,340 [WARNING] HTTP 404: {"timestamp":1748266721276,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/ask-bids-history"}
+2025-05-26 13:38:45,340 [ERROR] Error fetching spot_orderbook_ask_bids_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/orderbook/ask-bids-history
+2025-05-26 13:38:45,683 [WARNING] HTTP 404: {"timestamp":1748266725633,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/aggregated-ask-bids-history"}
+2025-05-26 13:38:47,694 [WARNING] HTTP 404: {"timestamp":1748266725633,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/aggregated-ask-bids-history"}
+2025-05-26 13:38:49,702 [WARNING] HTTP 404: {"timestamp":1748266725633,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/aggregated-ask-bids-history"}
+2025-05-26 13:38:49,703 [ERROR] Error fetching spot_orderbook_aggregated_ask_bids_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/orderbook/aggregated-ask-bids-history
+2025-05-26 13:38:50,016 [WARNING] HTTP 404: {"timestamp":1748266729969,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/history"}
+2025-05-26 13:38:52,026 [WARNING] HTTP 404: {"timestamp":1748266729969,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/history"}
+2025-05-26 13:38:54,034 [WARNING] HTTP 404: {"timestamp":1748266729969,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/history"}
+2025-05-26 13:38:54,034 [ERROR] Error fetching spot_orderbook_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/orderbook/history
+2025-05-26 13:38:54,354 [WARNING] HTTP 404: {"timestamp":1748266734304,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/large-limit-order"}
+2025-05-26 13:38:56,364 [WARNING] HTTP 404: {"timestamp":1748266734304,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/large-limit-order"}
+2025-05-26 13:38:58,373 [WARNING] HTTP 404: {"timestamp":1748266734304,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/large-limit-order"}
+2025-05-26 13:38:58,373 [ERROR] Error fetching spot_orderbook_large_limit_order: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/orderbook/large-limit-order
+2025-05-26 13:38:58,547 [WARNING] HTTP 404: {"timestamp":1748266738498,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/large-limit-order-history"}
+2025-05-26 13:39:00,558 [WARNING] HTTP 404: {"timestamp":1748266738498,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/large-limit-order-history"}
+2025-05-26 13:39:02,565 [WARNING] HTTP 404: {"timestamp":1748266738498,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/orderbook/large-limit-order-history"}
+2025-05-26 13:39:02,566 [ERROR] Error fetching spot_orderbook_large_limit_order_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/orderbook/large-limit-order-history
+2025-05-26 13:39:02,878 [WARNING] HTTP 404: {"timestamp":1748266742832,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/taker-buy-sell-volume/history"}
+2025-05-26 13:39:04,892 [WARNING] HTTP 404: {"timestamp":1748266742832,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/taker-buy-sell-volume/history"}
+2025-05-26 13:39:06,900 [WARNING] HTTP 404: {"timestamp":1748266742832,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/taker-buy-sell-volume/history"}
+2025-05-26 13:39:06,901 [ERROR] Error fetching spot_taker_buy_sell_volume_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/taker-buy-sell-volume/history
+2025-05-26 13:39:07,234 [WARNING] HTTP 404: {"timestamp":1748266747181,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/aggregated-taker-buy-sell-volume/history"}
+2025-05-26 13:39:09,251 [WARNING] HTTP 404: {"timestamp":1748266747181,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/aggregated-taker-buy-sell-volume/history"}
+2025-05-26 13:39:11,260 [WARNING] HTTP 404: {"timestamp":1748266747181,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/spot/aggregated-taker-buy-sell-volume/history"}
+2025-05-26 13:39:11,260 [ERROR] Error fetching spot_aggregated_taker_buy_sell_volume_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/spot/aggregated-taker-buy-sell-volume/history
+2025-05-26 13:39:11,578 [WARNING] HTTP 404: {"timestamp":1748266751532,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/max-pain"}
+2025-05-26 13:39:13,588 [WARNING] HTTP 404: {"timestamp":1748266751532,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/max-pain"}
+2025-05-26 13:39:15,599 [WARNING] HTTP 404: {"timestamp":1748266751532,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/max-pain"}
+2025-05-26 13:39:15,599 [ERROR] Error fetching option_max_pain: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/option/max-pain
+2025-05-26 13:39:15,921 [WARNING] HTTP 404: {"timestamp":1748266755873,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/info"}
+2025-05-26 13:39:17,931 [WARNING] HTTP 404: {"timestamp":1748266755873,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/info"}
+2025-05-26 13:39:19,943 [WARNING] HTTP 404: {"timestamp":1748266755873,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/info"}
+2025-05-26 13:39:19,943 [ERROR] Error fetching option_info: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/option/info
+2025-05-26 13:39:20,262 [WARNING] HTTP 404: {"timestamp":1748266760216,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/exchange-oi-history"}
+2025-05-26 13:39:22,274 [WARNING] HTTP 404: {"timestamp":1748266760216,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/exchange-oi-history"}
+2025-05-26 13:39:24,282 [WARNING] HTTP 404: {"timestamp":1748266760216,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/exchange-oi-history"}
+2025-05-26 13:39:24,282 [ERROR] Error fetching option_exchange_oi_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/option/exchange-oi-history
+2025-05-26 13:39:24,608 [WARNING] HTTP 404: {"timestamp":1748266764561,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/exchange-vol-history"}
+2025-05-26 13:39:26,625 [WARNING] HTTP 404: {"timestamp":1748266764561,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/exchange-vol-history"}
+2025-05-26 13:39:28,635 [WARNING] HTTP 404: {"timestamp":1748266764561,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/option/exchange-vol-history"}
+2025-05-26 13:39:28,635 [ERROR] Error fetching option_exchange_vol_history: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/option/exchange-vol-history
+2025-05-26 13:39:28,967 [WARNING] HTTP 404: {"timestamp":1748266768899,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/exchange/assets"}
+2025-05-26 13:39:30,978 [WARNING] HTTP 404: {"timestamp":1748266768899,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/exchange/assets"}
+2025-05-26 13:39:32,986 [WARNING] HTTP 404: {"timestamp":1748266768899,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/exchange/assets"}
+2025-05-26 13:39:32,986 [ERROR] Error fetching exchange_assets: 404 Client Error: Not Found for url: https://open-api-v4.coinglass.com/api/api/exchange/assets
+2025-05-26 13:39:33,302 [WARNING] HTTP 404: {"timestamp":1748266773252,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/exchange/balance/list"}
+2025-05-26 13:39:35,312 [WARNING] HTTP 404: {"timestamp":1748266773252,"status":404,"error":"Not Found","message":"","path":"/v4/api/api/exchange/balance/list"}

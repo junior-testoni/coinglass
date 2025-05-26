@@ -56,7 +56,7 @@ Following these tasks will get the pipeline up and running so you can collect BT
 
 
 - Updated `coinglass_pipeline.py` to fetch every endpoint listed in `coinglass_endpoints.py` and store the JSON results.
-  Next step: run the pipeline with your API key to review the collected data.
+  Next step: run the pipeline with your API key to review the collected data
 
 - Changed `BASE_URL` in both the README and `coinglass_pipeline.py` so the API
   calls point to `https://open-api-v4.coinglass.com` without an extra `/api`
