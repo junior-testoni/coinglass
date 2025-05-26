@@ -52,3 +52,12 @@
 2025-05-26 13:14:17,943 [INFO] Stored 829 raw records from futures_supported_coins
 2025-05-26 13:14:18,568 [INFO] Stored 20 raw records from futures_supported_exchange_pairs
 2025-05-26 13:14:18,569 [INFO] Data pipeline run completed.
+2025-05-26 13:22:47,318 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 13:22:47,495 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 13:22:47,659 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:22:47,842 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 13:22:48,020 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 13:22:48,184 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 13:22:48,357 [INFO] Stored 829 raw records from futures_supported_coins
+2025-05-26 13:22:48,703 [INFO] Stored 20 raw records from futures_supported_exchange_pairs
+2025-05-26 13:22:48,703 [INFO] Data pipeline run completed.
