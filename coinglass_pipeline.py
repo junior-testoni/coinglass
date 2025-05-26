@@ -5,15 +5,21 @@ funding rate, long/short ratio, and liquidations) from the Coinglass API
 and stores it locally in an SQLite database. Each section of the code is
 commented so you can understand what is happening even if you are not
 familiar with Python.
+
+The pipeline also provides helpers to call many other Coinglass API
+endpoints. Those extra endpoints are listed in ``coinglass_endpoints.py``
+and results are stored as raw JSON for reference.
 """
 
 import logging
 import os
 import time
 import sqlite3
+import json
 from typing import List, Dict
 
 import requests
+from coinglass_endpoints import ADDITIONAL_ENDPOINTS
 
 # ------------------------
 # Configuration
@@ -32,13 +38,18 @@ if API_KEY == "<YOUR_COINGLASS_API_KEY>":
 
 BASE_URL = "https://open-api-v4.coinglass.com/api"
 
-# Endpoints we will call for each type of data.
+# Endpoints we will call for the core data types used in the pipeline.
+# ENDPOINTS maps a short name to the actual API path.
 ENDPOINTS = {
     "open_interest": "/futures/open-interest/aggregated-history",
     "funding_rate": "/futures/funding-rate/oi-weight-history",
     "long_short_ratio": "/futures/top-long-short-account-ratio/history",
     "liquidations": "/futures/liquidation/aggregated-history",
 }
+
+# ADDITIONAL_ENDPOINTS (imported above) contains many more API paths that you
+# may wish to collect. The main script shows how to fetch a couple of them as
+# an example.
 
 # SQLite database file
 DB_FILE = "coinglass_data.db"
@@ -90,6 +101,20 @@ class CoinglassClient:
                 raise RuntimeError(f"API error: {data.get('msg')}")
             return data.get("data", [])
         raise RuntimeError("Failed to get valid response after retries")
+
+    def fetch_generic(self, endpoint: str, params: Dict | None = None) -> List[Dict]:
+        """Fetch data from any Coinglass API endpoint.
+
+        Parameters
+        ----------
+        endpoint : str
+            The API path, e.g. ``"/api/spot/supported-coins"``.
+        params : dict, optional
+            Dictionary of query parameters. Many endpoints do not require any.
+        """
+        if params is None:
+            params = {}
+        return self._get(endpoint, params)
 
     # Convenience wrappers for each data category
     def fetch_open_interest_history(self, symbol: str, interval: str = "4h") -> List[Dict]:
@@ -172,6 +197,16 @@ class DataStorage:
             )
             """
         )
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS raw_api_data (
+                endpoint TEXT,
+                params TEXT,
+                retrieved_at INTEGER,
+                data TEXT
+            )
+            """
+        )
         self.conn.commit()
 
     def insert_open_interest(self, symbol: str, data: List[Dict]) -> None:
@@ -251,6 +286,24 @@ class DataStorage:
         self.conn.commit()
         logging.info("Stored %s liquidation records for %s", len(rows), symbol)
 
+    def insert_raw_data(self, endpoint: str, params: Dict, data: List[Dict]) -> None:
+        """Store raw JSON results from any endpoint for future reference."""
+        rows = [
+            (
+                endpoint,
+                json.dumps(params),
+                int(time.time()),
+                json.dumps(record),
+            )
+            for record in data
+        ]
+        self.cursor.executemany(
+            "INSERT INTO raw_api_data VALUES (?, ?, ?, ?)",
+            rows,
+        )
+        self.conn.commit()
+        logging.info("Stored %s raw records from %s", len(rows), endpoint)
+
     def close(self) -> None:
         self.conn.close()
 
@@ -279,6 +332,15 @@ if __name__ == "__main__":
         except Exception as exc:
             logging.error("Error fetching data for %s: %s", sym, exc)
             continue
+
+    # Example: fetch a couple of additional endpoints that do not require
+    # parameters and store their raw responses.
+    for ep_name in ["futures_supported_coins", "futures_supported_exchange_pairs"]:
+        try:
+            data = client.fetch_generic(ADDITIONAL_ENDPOINTS[ep_name])
+            storage.insert_raw_data(ep_name, {}, data)
+        except Exception as exc:
+            logging.error("Error fetching %s: %s", ep_name, exc)
 
     storage.close()
     logging.info("Data pipeline run completed.")
