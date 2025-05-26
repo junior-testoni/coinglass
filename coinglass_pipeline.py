@@ -391,14 +391,17 @@ if __name__ == "__main__":
             logging.error("Error fetching data for %s: %s", sym, exc)
             continue
 
-    # Example: fetch a couple of additional endpoints that do not require
-    # parameters and store their raw responses.
-    for ep_name in ["futures_supported_coins", "futures_supported_exchange_pairs"]:
+    # Fetch every additional endpoint listed in ``coinglass_endpoints.py``.
+    # Some of these API calls need parameters, but here we simply call them
+    # without any. If an endpoint fails, we log the error and continue so the
+    # rest of the pipeline still runs.
+    for ep_name, ep_path in ADDITIONAL_ENDPOINTS.items():
         try:
-            data = client.fetch_generic(ADDITIONAL_ENDPOINTS[ep_name])
+            data = client.fetch_generic(ep_path)
             storage.insert_raw_data(ep_name, {}, data)
         except Exception as exc:
             logging.error("Error fetching %s: %s", ep_name, exc)
+            continue
 
     storage.close()
     logging.info("Data pipeline run completed.")
