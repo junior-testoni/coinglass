@@ -2,4 +2,3 @@ requests
 pytest
 streamlit
 pandas
-sqlite3 
