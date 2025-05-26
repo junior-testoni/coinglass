@@ -36,7 +36,10 @@ if API_KEY == "<YOUR_COINGLASS_API_KEY>":
         "or set the COINGLASS_API_KEY environment variable."
     )
 
-BASE_URL = "https://open-api-v4.coinglass.com/api"
+# Base URL for the Coinglass API.  The individual endpoint paths defined below
+# already include "/api" where required, so we keep the base simple to avoid
+# accidentally calling URLs like ``/api/api/...``.
+BASE_URL = "https://open-api-v4.coinglass.com"
 
 # Endpoints we will call for the core data types used in the pipeline.
 # ENDPOINTS maps a short name to the actual API path.
@@ -391,14 +394,17 @@ if __name__ == "__main__":
             logging.error("Error fetching data for %s: %s", sym, exc)
             continue
 
-    # Example: fetch a couple of additional endpoints that do not require
-    # parameters and store their raw responses.
-    for ep_name in ["futures_supported_coins", "futures_supported_exchange_pairs"]:
+    # Fetch every additional endpoint listed in ``coinglass_endpoints.py``.
+    # Some of these API calls need parameters, but here we simply call them
+    # without any. If an endpoint fails, we log the error and continue so the
+    # rest of the pipeline still runs.
+    for ep_name, ep_path in ADDITIONAL_ENDPOINTS.items():
         try:
-            data = client.fetch_generic(ADDITIONAL_ENDPOINTS[ep_name])
+            data = client.fetch_generic(ep_path)
             storage.insert_raw_data(ep_name, {}, data)
         except Exception as exc:
             logging.error("Error fetching %s: %s", ep_name, exc)
+            continue
 
     storage.close()
     logging.info("Data pipeline run completed.")
