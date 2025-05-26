@@ -70,15 +70,42 @@ logging.basicConfig(
 
 
 class CoinglassClient:
-    """Simple client for calling the Coinglass REST API."""
+    """Simple client for calling the Coinglass REST API.
 
-    def __init__(self, api_key: str, base_url: str = BASE_URL) -> None:
+    Parameters
+    ----------
+    api_key : str
+        Your Coinglass API key.
+    base_url : str, optional
+        Base URL for all API requests.
+    max_requests_per_minute : int, optional
+        Limit on the number of requests we should send each minute.  The
+        default of ``30`` matches the Hobbyist plan allowance.
+    """
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = BASE_URL,
+        max_requests_per_minute: int = 30,
+    ) -> None:
         self.session = requests.Session()
         self.session.headers.update({
             "accept": "application/json",
             "CG-API-KEY": api_key,
         })
         self.base_url = base_url
+        # Track time between requests so we do not exceed the rate limit.
+        self.min_interval = 60.0 / float(max_requests_per_minute)
+        self.last_request_time = 0.0
+
+    def _respect_rate_limit(self) -> None:
+        """Pause if the last request was sent too recently."""
+        elapsed = time.time() - self.last_request_time
+        if elapsed < self.min_interval:
+            wait_time = self.min_interval - elapsed
+            logging.debug("Sleeping %.2f seconds to respect rate limit", wait_time)
+            time.sleep(wait_time)
 
     def _get(self, endpoint: str, params: Dict) -> List[Dict]:
         """Send a GET request and return the ``data`` field from the JSON response."""
@@ -90,7 +117,9 @@ class CoinglassClient:
         for attempt in range(1, max_retries + 1):
             try:
                 logging.debug("Requesting %s", url)
+                self._respect_rate_limit()
                 resp = self.session.get(url, params=params, timeout=10)
+                self.last_request_time = time.time()
             except requests.RequestException as exc:  # Network problem
                 logging.warning("Network error: %s", exc)
                 if attempt < max_retries:
