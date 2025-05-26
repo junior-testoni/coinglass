@@ -33,7 +33,7 @@ import time
 # ------------------------
 
 API_KEY = "<YOUR_COINGLASS_API_KEY>"  # TODO: Set your Coinglass API key here.
-BASE_URL = "https://open-api-v4.coinglass.com/api"  # Base URL for Coinglass API (v4).
+BASE_URL = "https://open-api-v4.coinglass.com"  # Base URL for Coinglass API (v4).
 
 # Define endpoints for each data type. Endpoints are chosen for Hobbyist availability.
 ENDPOINTS = {

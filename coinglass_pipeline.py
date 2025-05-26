@@ -36,7 +36,10 @@ if API_KEY == "<YOUR_COINGLASS_API_KEY>":
         "or set the COINGLASS_API_KEY environment variable."
     )
 
-BASE_URL = "https://open-api-v4.coinglass.com/api"
+# Base URL for the Coinglass API.  The individual endpoint paths defined below
+# already include "/api" where required, so we keep the base simple to avoid
+# accidentally calling URLs like ``/api/api/...``.
+BASE_URL = "https://open-api-v4.coinglass.com"
 
 # Endpoints we will call for the core data types used in the pipeline.
 # ENDPOINTS maps a short name to the actual API path.
