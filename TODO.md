@@ -49,3 +49,8 @@ Following these tasks will get the pipeline up and running so you can collect BT
   documented these endpoints in the README.
   Next step: try fetching some of the new endpoints and review the stored data.
 
+- Added docstrings and optional ``start_time``/``end_time`` parameters to all
+  fetch methods in ``coinglass_pipeline.py`` so you can limit the date range
+  when calling an endpoint.
+  Next step: run ``pytest`` to ensure the script still imports correctly.
+
