@@ -44,4 +44,8 @@ Following these tasks will get the pipeline up and running so you can collect BT
   then run `pip install -r requirements.txt` and `pytest` before executing the pipeline.
 - Updated `AGENTS.md` to note that `coinglass_pipeline.py` now implements the pipeline.
 - Next step: verify all documentation remains consistent with the code.
+- Added a list of additional endpoints and a generic fetch method to
+  `coinglass_pipeline.py`. Also created `coinglass_endpoints.py` and
+  documented these endpoints in the README.
+  Next step: try fetching some of the new endpoints and review the stored data.
 
