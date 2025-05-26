@@ -117,22 +117,80 @@ class CoinglassClient:
         return self._get(endpoint, params)
 
     # Convenience wrappers for each data category
-    def fetch_open_interest_history(self, symbol: str, interval: str = "4h") -> List[Dict]:
+    def fetch_open_interest_history(
+        self,
+        symbol: str,
+        interval: str = "4h",
+        start_time: int | None = None,
+        end_time: int | None = None,
+    ) -> List[Dict]:
+        """Fetch aggregated open interest history.
+
+        Parameters
+        ----------
+        symbol : str
+            Trading pair such as ``"BTC"`` or ``"ETH"``.
+        interval : str, optional
+            Timeframe of the data (default ``"4h"``). Hobbyist plans require
+            4-hour or higher intervals.
+        start_time, end_time : int, optional
+            Unix timestamps in milliseconds to limit the date range.
+        """
+
         params = {"symbol": symbol, "interval": interval}
+        if start_time is not None:
+            params["start_time"] = start_time
+        if end_time is not None:
+            params["end_time"] = end_time
         return self._get(ENDPOINTS["open_interest"], params)
 
-    def fetch_funding_rate_history(self, symbol: str, interval: str = "4h") -> List[Dict]:
+    def fetch_funding_rate_history(
+        self,
+        symbol: str,
+        interval: str = "4h",
+        start_time: int | None = None,
+        end_time: int | None = None,
+    ) -> List[Dict]:
+        """Fetch funding rate history weighted by open interest."""
+
         params = {"symbol": symbol, "interval": interval}
+        if start_time is not None:
+            params["start_time"] = start_time
+        if end_time is not None:
+            params["end_time"] = end_time
         return self._get(ENDPOINTS["funding_rate"], params)
 
     def fetch_long_short_ratio_history(
-        self, symbol: str, interval: str = "4h", exchange: str = "Binance"
+        self,
+        symbol: str,
+        interval: str = "4h",
+        exchange: str = "Binance",
+        start_time: int | None = None,
+        end_time: int | None = None,
     ) -> List[Dict]:
+        """Fetch the top trader long/short ratio for a given exchange."""
+
         params = {"symbol": symbol, "interval": interval, "exchangeName": exchange}
+        if start_time is not None:
+            params["start_time"] = start_time
+        if end_time is not None:
+            params["end_time"] = end_time
         return self._get(ENDPOINTS["long_short_ratio"], params)
 
-    def fetch_liquidation_history(self, symbol: str, interval: str = "4h") -> List[Dict]:
+    def fetch_liquidation_history(
+        self,
+        symbol: str,
+        interval: str = "4h",
+        start_time: int | None = None,
+        end_time: int | None = None,
+    ) -> List[Dict]:
+        """Fetch aggregated liquidation history."""
+
         params = {"symbol": symbol, "interval": interval}
+        if start_time is not None:
+            params["start_time"] = start_time
+        if end_time is not None:
+            params["end_time"] = end_time
         return self._get(ENDPOINTS["liquidations"], params)
 
 
