@@ -39,6 +39,7 @@ Following these tasks will get the pipeline up and running so you can collect BT
 - Cleaned README title and removed stale content references.
 - Next step: review pipeline code and run tests.
 - Added a simple `pytest` test and documented how to run it.
+- Added `.vscode/` to `.gitignore` so editor settings are not tracked.
 - Next step: set your API key via the environment variable or directly in the script,
   then run `pip install -r requirements.txt` and `pytest` before executing the pipeline.
 
