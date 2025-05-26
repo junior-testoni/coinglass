@@ -1,3 +1,24 @@
 2025-05-25 02:51:02,625 [ERROR] Error fetching data for BTC: API error: Internal error
 2025-05-25 02:51:03,577 [ERROR] Error fetching data for ETH: API error: Internal error
 2025-05-25 02:51:03,578 [INFO] Data pipeline run completed.
+2025-05-25 21:20:07,924 [INFO] Stored 1000 open interest records for BTC
+2025-05-25 21:20:08,420 [INFO] Stored 1000 funding rate records for BTC
+2025-05-25 21:20:08,824 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-25 21:20:09,158 [INFO] Stored 1000 open interest records for ETH
+2025-05-25 21:20:09,337 [INFO] Stored 1000 funding rate records for ETH
+2025-05-25 21:20:09,506 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-25 21:20:09,506 [INFO] Data pipeline run completed.
+2025-05-26 07:25:41,622 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 07:25:42,139 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 07:25:42,457 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 07:25:42,943 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 07:25:43,121 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 07:25:43,284 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 07:25:43,284 [INFO] Data pipeline run completed.
+2025-05-26 12:29:37,582 [INFO] Stored 1000 open interest records for BTC
+2025-05-26 12:29:38,120 [INFO] Stored 1000 funding rate records for BTC
+2025-05-26 12:29:38,450 [ERROR] Error fetching data for BTC: API error: Required String parameter 'exchange' is not present
+2025-05-26 12:29:38,781 [INFO] Stored 1000 open interest records for ETH
+2025-05-26 12:29:38,973 [INFO] Stored 1000 funding rate records for ETH
+2025-05-26 12:29:39,139 [ERROR] Error fetching data for ETH: API error: Required String parameter 'exchange' is not present
+2025-05-26 12:29:39,140 [INFO] Data pipeline run completed.
