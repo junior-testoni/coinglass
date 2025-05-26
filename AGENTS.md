@@ -1,6 +1,6 @@
 # AGENTS Instructions for coinglass Repository
 
-This repository currently contains only a README detailing a plan for a Bitcoin and Ethereum data pipeline using the Coinglass API. There is no actual code yet.
+This repository now includes the `coinglass_pipeline.py` script, which implements the Bitcoin and Ethereum data pipeline described in the README.
 
 These instructions are aimed at other assistants or developers (with or without coding experience) who may work on this repository.
 

@@ -42,4 +42,6 @@ Following these tasks will get the pipeline up and running so you can collect BT
 - Added `.vscode/` to `.gitignore` so editor settings are not tracked.
 - Next step: set your API key via the environment variable or directly in the script,
   then run `pip install -r requirements.txt` and `pytest` before executing the pipeline.
+- Updated `AGENTS.md` to note that `coinglass_pipeline.py` now implements the pipeline.
+- Next step: verify all documentation remains consistent with the code.
 
