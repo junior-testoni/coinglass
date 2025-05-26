@@ -62,3 +62,9 @@ Following these tasks will get the pipeline up and running so you can collect BT
   calls point to `https://open-api-v4.coinglass.com` without an extra `/api`
   segment. This prevents requests to URLs like `/api/api/...`.
   Next step: run `pytest -q` then run the pipeline to confirm the endpoints work.
+
+- Fixed endpoint URLs in `coinglass_pipeline.py` so core API calls use the
+  documented paths with `/api` and the generic fetch method no longer builds
+  malformed URLs. Updated the loop over `ADDITIONAL_ENDPOINTS` accordingly.
+  Next step: execute `pytest -q` and run the pipeline to verify data downloads
+  succeed.

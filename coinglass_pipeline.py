@@ -36,17 +36,22 @@ if API_KEY == "<YOUR_COINGLASS_API_KEY>":
         "or set the COINGLASS_API_KEY environment variable."
     )
 
-# Base URL for the Coinglass API. The individual endpoint paths defined below
-# do NOT include "/api" at the start, so we must include it here.
+# Base URL for the Coinglass API. Most endpoint paths already contain
+# the ``/api`` prefix from the official documentation, so the base URL
+# is simply the domain.
 BASE_URL = "https://open-api-v4.coinglass.com"
 
 # Endpoints we will call for the core data types used in the pipeline.
 # ENDPOINTS maps a short name to the actual API path.
 ENDPOINTS = {
-    "open_interest": "/futures/open-interest/aggregated-history",
-    "funding_rate": "/futures/funding-rate/oi-weight-history",
-    "long_short_ratio": "/futures/top-long-short-account-ratio/history",
-    "liquidations": "/futures/liquidation/aggregated-history",
+    # Aggregated open interest history across all exchanges
+    "open_interest": "/api/futures/openInterest/ohlc-aggregated-history",
+    # Open-interest-weighted funding rate history
+    "funding_rate": "/api/futures/fundingRate/oi-weight-ohlc-history",
+    # Top trader long/short ratio history for a given exchange
+    "long_short_ratio": "/api/futures/top-long-short-account-ratio/history",
+    # Aggregated liquidation history for a coin
+    "liquidations": "/api/futures/liquidation/aggregated-history",
 }
 
 # ADDITIONAL_ENDPOINTS (imported above) contains many more API paths that you
@@ -402,8 +407,9 @@ if __name__ == "__main__":
     # rest of the pipeline still runs.
     for ep_name, ep_path in ADDITIONAL_ENDPOINTS.items():
         try:
-            endpoint_url = BASE_URL + ep_path
-            data = client.fetch_generic(endpoint_url)
+            # ``fetch_generic`` expects just the endpoint path. It will
+            # combine it with ``BASE_URL`` internally to build the full URL.
+            data = client.fetch_generic(ep_path)
             storage.insert_raw_data(ep_name, {}, data)
         except Exception as exc:
             logging.error("Error fetching %s: %s", ep_name, exc)
