@@ -36,9 +36,8 @@ if API_KEY == "<YOUR_COINGLASS_API_KEY>":
         "or set the COINGLASS_API_KEY environment variable."
     )
 
-# Base URL for the Coinglass API.  The individual endpoint paths defined below
-# already include "/api" where required, so we keep the base simple to avoid
-# accidentally calling URLs like ``/api/api/...``.
+# Base URL for the Coinglass API. The individual endpoint paths defined below
+# do NOT include "/api" at the start, so we must include it here.
 BASE_URL = "https://open-api-v4.coinglass.com"
 
 # Endpoints we will call for the core data types used in the pipeline.
@@ -78,7 +77,10 @@ class CoinglassClient:
 
     def _get(self, endpoint: str, params: Dict) -> List[Dict]:
         """Send a GET request and return the ``data`` field from the JSON response."""
-        url = self.base_url + endpoint
+        # Ensure endpoint does not have duplicate '/api' or missing '/'
+        if not endpoint.startswith("/"):
+            endpoint = "/" + endpoint
+        url = self.base_url.rstrip("/") + endpoint
         max_retries = 3
         for attempt in range(1, max_retries + 1):
             try:
@@ -400,7 +402,8 @@ if __name__ == "__main__":
     # rest of the pipeline still runs.
     for ep_name, ep_path in ADDITIONAL_ENDPOINTS.items():
         try:
-            data = client.fetch_generic(ep_path)
+            endpoint_url = BASE_URL + ep_path
+            data = client.fetch_generic(endpoint_url)
             storage.insert_raw_data(ep_name, {}, data)
         except Exception as exc:
             logging.error("Error fetching %s: %s", ep_name, exc)
