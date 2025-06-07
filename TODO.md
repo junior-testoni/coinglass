@@ -77,3 +77,4 @@ Following these tasks will get the pipeline up and running so you can collect BT
 - Limited additional endpoint fetching to a subset (`DEFAULT_ADDITIONAL_ENDPOINTS`)
   that works without extra parameters. Update this list if you need more data.
 
+- Added `fetch_btc_data_csv.py` script to export BTC open interest, long/short ratio, liquidation map, and options data to CSV using the rate-limited client. Next step: set your API key and run the script.
